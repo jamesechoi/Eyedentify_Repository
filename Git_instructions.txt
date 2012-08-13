@@ -1,0 +1,23 @@
+Git User guide:
+0. Create an account and download "github for windows" and "the latest version of github" from
+	https://help.github.com/articles/set-up-git
+
+1. Log in and go to github.com/jimmy111c/Eyedentify_Repository
+
+2. click 'Fork' (this creates a your 'copy' to work on)
+
+3. In the GitHub app the repository you just forked should show up, click on 'clone' - this will 
+	create a local version on your pc.
+	
+4. 	After making any changes open up Git Gui and browse to you local repository. All the changes you made will 
+	show there. If there are any conflicts they will show here and you will have to resolce these. If not, then
+	you stage all the files then commit them and then push them to your fork. (you can also do this in the 
+	GitHub app by clicking commit then sync. If you no go to github.com you will see that your changes
+	have been made on your fork.
+	
+5. Now you want to push all of your changes to your fork up to the master copy. Open git bash in your local
+	repository on your drive. Enter "git remote add upstream https://github.com/jimmy111c/Eyedentify_Repository.git"
+	Then enter "git push upstream" use the master login(username:jimmy111c password: ) - this then pushes
+	all changes to the master repository.
+
+Read rest of https://help.github.com/articles/fork-a-repo for how to do other stuff.
