@@ -1,0 +1,147 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Eyedentify.SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head id="Head1" runat="server">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="<%= Page.ResolveUrl("~/Styles/STL_Site.css") %>" />
+    <link rel="stylesheet" href="<%= Page.ResolveUrl("~/Styles/STL_footerstyles.css") %>" type="text/css" />
+    <script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/SCR_slide.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/SCR_highlight.js") %>"></script>
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="background-color: #EFEFEF;">
+    <div class="wrapper">
+        <form id="Form1" runat="server">
+        <div class="page">
+            <div class="header">
+                <div class="title">
+                    <br />
+                    <h1>
+                        <a href="~/Members/MemberHome.aspx" id="HeadLoginStatus" runat="server">
+                            <img src="/Images/EyeDentify.jpg" alt="" /></a>
+                    </h1>
+                </div>
+                <div class="loginDisplay">
+                    <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                        <AnonymousTemplate>
+                            [ <a href="~/Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
+                            ]
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            Welcome <span class="bold">
+                                <asp:LoginName ID="HeadLoginName" runat="server" />
+                            </span>! [
+                            <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out"
+                                LogoutPageUrl="~/" />
+                            ]
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+                <div class="clear hideSkiplink">
+                    <div id="menubar">
+                        <ul id="menu">
+                            <li><a href="<%= Page.ResolveUrl("~/Members/Home.aspx") %>">Home</a></li>
+                            <li><a href="<%= Page.ResolveUrl("~/Members/MemberHome.aspx") %>">Incident Feed</a></li>
+                            <li><a href="<%= Page.ResolveUrl("~/Members/ReportIncident.aspx") %>">New Incident</a></li>
+                            <li><a href="<%= Page.ResolveUrl("~/MyAccount.aspx") %>">My Account</a></li>
+                            <li><a href="<%= Page.ResolveUrl("~/About.aspx") %>">About</a></li>
+                            <li><a href="<%= Page.ResolveUrl("~/FAQ.aspx") %>">FAQ</a></li>
+                        </ul>
+                        <div id="line">
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript" language="javascript">setPage()</script>
+            </div>
+            <div class="main">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        </form>
+        <div class="push">
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-block">
+            <h3>
+                Our products</h3>
+            <a href="<%= Page.ResolveUrl("~/About.aspx") %>">About Us</a><br />
+            <a href="<%= Page.ResolveUrl("~/About.aspx") %>">Legal</a><br />
+            <a href="<%= Page.ResolveUrl("~/About.aspx") %>">Something Else</a><br />
+        </div>
+        <div class="footer-block">
+            <h3>
+                Need help?</h3>
+            <p>
+                Call 0800 123 456<br />
+                Monday - Friday<br />
+                8:30am - 5:30pm</p>
+            <a href="<%= Page.ResolveUrl("~/About.aspx") %>">Other ways to contact us</a>
+        </div>
+        <div class="footer-block">
+            <h3>
+                Empty &amp; Space</h3>
+            <a href="">Item 1</a><br />
+            <a href="">Item 2</a><br />
+            <a>Item 3</a><br />
+        </div>
+        <div class="footer-block last">
+            <h3>
+                News and Updates Sign Up</h3>
+            <div class="newsletterwrapper">
+                <input name="" type="text" value="Your email address" id="ctl00_txtEmailAddress"
+                    class="newsletterbox" onblur="" onfocus="" />
+                <input type="image" name="ctl00$btnEmailSubmit" id="ctl00_btnEmailSubmit" class="newsletter_submit"
+                    src="<%= Page.ResolveUrl("~/Images/blank.png") %>" style="border-width: 0px;" />
+            </div>
+            <table cellpadding="0" cellspacing="0" border="0" class="sharetable">
+                <tr>
+                    <td width="60">
+                        <p>
+                            Share</p>
+                    </td>
+                    <td width="34">
+                        <a href="https://www.facebook.com/james.corbett.10" target="_blank">
+                            <div class="fb">
+                            </div>
+                        </a>
+                    </td>
+                    <td width="34">
+                        <a href="https://twitter.com" target="_blank">
+                            <div class="tw">
+                            </div>
+                        </a>
+                    </td>
+                    <td width="34">
+                        <a href="https://plus.google.com/u/0/105938952606451566499/posts" target="_blank">
+                            <div class="gp">
+                            </div>
+                        </a>
+                    </td>
+                    <td width="24">
+                        <a href="http://www.linkedin.com" target="_blank">
+                            <div class="linkedin">
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- footer ends -->
+    <div class="disclaimer" style="border-right: none;">
+        <div class="copyright">
+            Copyright &copy; 2012 Edentify New Zealand. All rights reserved.
+        </div>
+        <div class="legal">
+            <a href="">Update Log</a> <span style="color: #CCC">|</span> <a href="">Disclosure statements
+            </a><span style="color: #CCC">|</span> <a href="" style="padding-right: 0px;">Terms
+                &amp; conditions</a>
+        </div>
+    </div>
+</body>
+</html>

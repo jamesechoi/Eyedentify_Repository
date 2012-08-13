@@ -1,0 +1,268 @@
+@charset 'UTF-8';
+/* CSS Document*/
+
+
+/* Footer */
+.footer{
+	clear:both;
+	width:960px;
+	background-image:url('http://images.gmi.co.nz/sites/gmi/images/v2012/footer_bg.png');
+	background-repeat:no-repeat;
+	height:196px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:50px;
+	
+}
+
+.footer-block{
+	width:195px;
+	height:196px;
+	float:left;
+	padding: 0px 20px 0px 20px !important;
+	border-right:1px solid #555;
+	-moz-box-shadow: 1px 0px 0px #8F8F8F;
+	-webkit-box-shadow: 1px 0px 0px #8F8F8F;
+	box-shadow: 1px 0px 0px #8F8F8F;
+	font-weight:normal;
+}
+
+.footer-block h3{
+	color:#FFFFFF;
+	margin-top:20px;
+	font-size:17px;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	text-shadow: 1px 1px 2px #666;
+}
+
+.footer-block a{
+	color:#FFFFFF;
+	font-size:15px;
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:200%;
+	text-decoration:none;
+}
+
+.footer-block a:hover{
+	color:#F90;
+	font-size:15px;
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:200%;
+	text-decoration:none;
+}
+
+.footer-block p{
+	color:#FFFFFF;
+	font-size:15px;
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:150%;
+	text-decoration:none;
+}
+
+.last{
+	border-right:none; 
+	width:196px;
+    -webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+
+/* Custom newsletter sign up box*/
+
+.newsletterwrapper {
+	width:185px; /*follow the size of the image*/
+	height:25px;/*follow the size of the image*/
+	background-image:url(http://images.gmi.co.nz/sites/gmi/images/v2012/newsletterbox.png);
+	background-repeat:no-repeat; /*important*/
+	padding:0px;
+	margin:25px 0px 0px 0px;
+	position:relative; /*important*/
+}
+ 
+.newsletterwrapper form { display:inline ; }
+ 
+.newsletterbox {
+	border:0px; /*important*/
+	background-color:transparent; /*important*/
+	position:absolute; /*important*/
+	top:2px;
+	left:5px;
+	width:145px;
+	height:20px;
+	font-size:13px;
+	color:#999;
+	font-family:Arial, Helvetica, sans-serif;
+}
+ 
+.newsletter_submit {
+	border:0px; /*important*/
+	background-color:transparent; /*important*/
+	position:absolute; /*important*/
+	top:4px;
+	left:154px;
+	width:28px;
+	height:25px;
+}
+
+
+.sharetable{
+	margin-top:15px;
+	padding:0px;
+}
+
+.fb {
+	width:24px;
+	height:24px;
+	margin-right:10px;
+	background: url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_fb.png') 0px 0px;
+	display:block;
+	float: left;
+	border: none;
+	cursor:pointer;
+	display:inline-block;
+}
+
+.fb:hover{
+	background:  url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_fb.png') 0px 24px;
+	cursor:pointer;
+}
+
+
+.tw {
+	width:24px;
+	height:24px;
+	margin-right:10px;
+	background: url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_twitter.png') 0px 0px;
+	display:block;
+	float: left;
+	border: none;
+	text-indent: -99999px;
+	cursor:pointer;
+	display:inline-block;
+}
+
+.tw:hover{
+	background:  url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_twitter.png') 0px 24px;
+	cursor:pointer;
+}
+
+.gp {
+	width:24px;
+	height:24px;
+	margin-right:10px;
+	background: url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_gplus.png') 0px 0px;
+	display:block;
+	float: left;
+	border: none;
+	text-indent: -99999px;
+	cursor:pointer;
+	display:inline-block;
+}
+
+.gp:hover{
+	background:  url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_gplus.png') 0px 24px;
+	cursor:pointer;
+}
+
+.linkedin {
+	width:24px;
+	height:24px;
+	background: url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_linkedin.png') 0px 0px;
+	display:block;
+	float: left;
+	border: none;
+	text-indent: -99999px;
+	cursor:pointer;
+	display:inline-block;
+}
+
+.linkedin:hover{
+	background: url('http://images.gmi.co.nz/sites/gmi/images/v2012/smicon_linkedin.png') 0px 24px;
+	cursor:pointer;
+}
+
+
+
+
+
+/* Disclaimer*/
+
+.disclaimer{
+	width:960px;
+	color:#666;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:13px;
+	margin-top:10px;
+	height:60px;
+	font-weight:normal;
+	margin-left:auto;
+	margin-right:auto;
+
+}
+
+.disclaimer a{
+	color:#007AB0;
+	text-decoration:none;
+}
+
+.disclaimer a:hover{
+	color:#FF9900;
+	text-decoration:none;
+}
+
+.copyright{
+	float:left;
+	width:530px;
+	margin-top:1px;
+}
+
+.legal{
+	float:right;
+	margin-top:1px;
+	width:430px;
+	text-align:right;
+}
+
+.legal a, .legal a:hover{
+	padding-left:10px;
+	padding-right:10px;
+}
+
+
+
+
+/*quick links styling*/
+
+
+.latest-news-column-2 {
+	width:262px;
+	float:right;
+	display:inline;
+}
+
+.quick-links {
+	border-top:1px solid #E5E5E5;
+	padding-bottom:25px;
+	margin-top:7px;
+	padding-top:5px
+}
+.individual-quicklink p {margin:0;line-height:16px;  display:inline; color:#007AB0}
+
+.individual-quicklink a { width:100%; display:block}
+.individual-quicklink p:hover{color:#FF9900}
+.quick-links a  {
+	color: #007AB0;
+    float: left;
+    line-height: 18px!important;
+    margin: 0;
+    padding: 4px 0 4px 7px;
+	font-size:15px;
+}
+.quick-links a:hover{
+	color:#FF9900;
+}
+
+
+
+

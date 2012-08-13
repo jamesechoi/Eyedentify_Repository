@@ -1,0 +1,20 @@
+﻿EyeDentify.co.nz Registration Details for {UserName}
+<html>
+<body>
+	Dear {FirstName} {LastName},<br />
+	<br />
+	Thank you for signing up to EyeDentify! As a member, you can now report incidents and view incidents around your area.
+	<br />
+	<br />
+	Your username is <i>{UserName}</i>.
+	<br />
+	<br />
+	
+    <br />
+    Please contact us if you have any questions - <a href="mailto:support@eyedentify.co.nz">support@eyedentify.co.nz</a>
+	<br />
+	<br />
+	Thanks,<br />
+	The EyeDentify Support Team.
+</body>
+</html>
