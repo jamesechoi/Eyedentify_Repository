@@ -20,4 +20,4 @@ Git User guide:
 	Then enter "git push upstream" use the master login(username:jimmy111c password: ) - this then pushes
 	all changes to the master repository.
 
-Read rest of https://help.github.com/articles/fork-a-repo for how to do other stuff.
+Read rest of https://help.github.com/articles/fork-a-repo for how to do other stuff..
