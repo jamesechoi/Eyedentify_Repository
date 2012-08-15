@@ -17,6 +17,10 @@
             border-bottom-right-radius:3px;
             border-color: #C0C0C0;
         }
+        #DescriptionBox:hover
+        {
+            border: 10px solid green;
+        }
         #questionMark
         {
             position:relative;

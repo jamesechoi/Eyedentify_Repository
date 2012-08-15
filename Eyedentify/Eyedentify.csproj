@@ -90,6 +90,7 @@
     <Content Include="Images\tab_images\tab_selected1.png" />
     <Content Include="Images\tab_images\tab_selected2.png" />
     <Content Include="Images\tab_images\tab_selected3.png" />
+    <Content Include="Images\tip-twitter_arrows.gif" />
     <Content Include="Images\toolbar-back.png" />
     <Content Include="Images\toolbar-mask.png" />
     <Content Include="Images\toolbar.png" />
@@ -103,6 +104,8 @@
     <Content Include="Members\MemberHome.aspx" />
     <Content Include="Members\MyAccount.aspx" />
     <Content Include="Members\ReportIncident.aspx" />
+    <Content Include="Scripts\form.js" />
+    <Content Include="Scripts\jquery.poshytip.js" />
     <Content Include="Scripts\SCR_chili-1.7.pack.js" />
     <Content Include="Scripts\SCR_highlight.js" />
     <Content Include="Scripts\SCR_jquery-1.7.2.min.js" />
@@ -131,6 +134,7 @@
     <Content Include="Styles\STL_style.css" />
     <Content Include="Styles\STL_stylePhotos.css" />
     <Content Include="Styles\STL_ThreeColumnLayoutWithImagesInCSS.css" />
+    <Content Include="Styles\tip-twitter.css" />
     <Content Include="Test_Page.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

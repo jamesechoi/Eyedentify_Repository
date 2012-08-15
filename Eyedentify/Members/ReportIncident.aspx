@@ -4,14 +4,20 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 
-    <link rel="stylesheet" media="all" type="text/css" href="<%= Page.ResolveUrl("~/Styles/STL_ReportIncidentGeneral.css") %>" />
-    
+    <link rel="stylesheet" media="all" type="text/css" href="<%= Page.ResolveUrl("~/Styles/STL_ReportIncidentGeneral.css") %>" />    
     <link rel="stylesheet" media="all" type="text/css" href="<%= Page.ResolveUrl("~/Styles/STL_jquery-ui.css") %>" />
 	<link rel="stylesheet" media="all" type="text/css" href="<%= Page.ResolveUrl("~/Styles/STL_jquery-ui-timepicker-addon.css") %>" />
     <script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/SCR_jquery-1.7.2.min.js") %>"></script>
 	<script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/SCR_jquery-ui.min.js") %>"></script>
 	<script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/SCR_jquery-ui-timepicker-addon.js") %>"></script>
 	<script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/SCR_jquery-ui-sliderAccess.js") %>"></script>
+
+
+    <script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/form.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/jquery.poshytip.js") %>"></script>
+    <link rel="stylesheet" media="all" type="text/css" href="<%= Page.ResolveUrl("~/Styles/tip-twitter.css") %>" />
+
+
      <script type="text/javascript">
          $(function () {
              $("#<%= IncidentDateTime.ClientID %>").datetimepicker({
@@ -29,7 +35,6 @@
         $(function () {
             $('.yourbox').selectbox();
         });
-
 	</script>
 
 </asp:Content>
@@ -38,7 +43,6 @@
         EnableScriptLocalization="true" ID="ScriptManager1" ScriptMode="Debug" CombineScripts="false" />
      <ajaxToolkit:RoundedCornersExtender ID="rce" runat="server" TargetControlID="IncidentID" Radius="20" Corners="All" />
     <table id="pageborder" style="width: 960px; vertical-align: top; height: 462px; margin-left: auto; margin-right: auto; margin-left:-20px;" cellpadding="5" cellspacing="20">
-        
         <tr>
             <td class="style1">
                 Location of Incident:
@@ -206,7 +210,7 @@
                 <asp:Label ID="IncidentID" runat="server" Text="0" Visible="False"></asp:Label>
             </td>
             <td>
-                <asp:TextBox ID="DescriptionBox"  runat="server" CssClass="Roundedcorner" 
+                <asp:TextBox ID="DescriptionBox"  runat="server" CssClass="Roundedcorner tip" Title="Please enter as much information as you can"
                     Height="87px" MaxLength="500" TextMode="MultiLine"
                     Width="390px" Font-Names="Arial" placeholder="This only works in chrome, http://stackoverflow.com/questions/4681036/html-css-making-a-textbox-with-text-that-is-grayed-out-and-disappears-when-i-cl for alternative"></asp:TextBox>
             
@@ -319,7 +323,7 @@
                                                      
                                 </table>
                                  
-                                <asp:TextBox ID="PersonDescriptionBox" CssClass="featuresBox" runat="server" Width="340px" 
+                                <asp:TextBox ID="PersonDescriptionBox" CssClass="featuresBox tip" Title="Please enter as much information as you can" runat="server" Width="340px" 
                                             Height="50px" TextMode="MultiLine" Font-Names="Arial" 
                                             placeholder="Describe any distinguishing features that you feel are important, i.e. clothing, tatoos, scars, hats, hair length/color etc"></asp:TextBox>
                                     
