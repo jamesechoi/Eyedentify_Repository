@@ -21,7 +21,7 @@
      <script type="text/javascript">
          $(function () {
              $("#<%= IncidentDateTime.ClientID %>").datetimepicker({
-                 ampm: false,
+                 ampm: true,
                  addSliderAccess: true,
                  sliderAccessArgs: { touchonly: false }
              });
@@ -42,7 +42,7 @@
     <ajaxToolkit:ToolkitScriptManager runat="Server" EnableScriptGlobalization="true"
         EnableScriptLocalization="true" ID="ScriptManager1" ScriptMode="Debug" CombineScripts="false" />
      <ajaxToolkit:RoundedCornersExtender ID="rce" runat="server" TargetControlID="IncidentID" Radius="20" Corners="All" />
-    <table id="pageborder" style="width: 960px; vertical-align: top; height: 462px; margin-left: auto; margin-right: auto; margin-left:-20px;" cellpadding="5" cellspacing="20">
+    <table id="pageborder" style="width: 900px; vertical-align: top; height: 462px; margin-left: auto; margin-right: auto; " cellpadding="5" cellspacing="20">
         <tr>
             <td class="style1">
                 Location of Incident:

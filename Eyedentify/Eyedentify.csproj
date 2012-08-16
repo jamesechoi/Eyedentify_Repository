@@ -95,6 +95,7 @@
     <Content Include="Images\toolbar-mask.png" />
     <Content Include="Images\toolbar.png" />
     <Content Include="Images\toolbar2.png" />
+    <Content Include="Images\ui-icons_ef8c08_256x240.png" />
     <Content Include="Images\upload.JPG" />
     <Content Include="Images\EyeDentify.jpg" />
     <Content Include="Images\uploadImg.jpg" />
@@ -121,6 +122,7 @@
     <Content Include="Scripts\SCR_visualslideshow.js" />
     <Content Include="Styles\STL_faq.css" />
     <Content Include="Styles\STL_footerstyles.css" />
+    <Content Include="Styles\STL_jquery-ui-timepicker-addon.css" />
     <Content Include="Styles\STL_jquery-ui.css" />
     <Content Include="Styles\STL_jquery.selectbox.css" />
     <Content Include="Styles\STL_ReportIncidentGeneral.css" />
