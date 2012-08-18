@@ -15,57 +15,77 @@ namespace Eyedentify
     {
         private SqlIncidentProvider sip = new SqlIncidentProvider();
         private SqlUserProvider sup = new SqlUserProvider();
+        private SqlStoreProvider ssp = new SqlStoreProvider();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                MembershipUser user = Membership.GetUser(User.Identity.Name);
+                string userID = user.ProviderUserKey.ToString();
+
+                StoreDetails loggedInUserStore = ssp.Store_Get_User_Store_Info(userID);
+
+                PopulateLocationLabel(loggedInUserStore);
                 PopulateIncidentTypeBox();
                 PopulateOtherIncidentBox();
 
-                MembershipUser user = Membership.GetUser(User.Identity.Name);
-                string usedID = user.ProviderUserKey.ToString();
-
                 int incidentID = Request.QueryString["iID"] == null ? -1 : int.Parse(Request.QueryString["iID"].ToString());
 
-                if (incidentID == -1)
+                if (loggedInUserStore.Store_ID == 0)
                 {
-                    IncidentDetails id = new IncidentDetails(-1, usedID, string.Empty, string.Empty, DateTime.Now, new List<IncidentTypeDetails> { }, 
-                        new List<IncidentPeopleDetails> { }, 0, string.Empty, false,false,string.Empty,-1);
-                    IncidentID.Text = sip.Incident_Insert(id).ToString();
+                    Response.Redirect("ErrorPage.aspx?Error=MemberNoStore");
                 }
                 else
                 {
-                    IncidentDetails id = sip.Incident_Get_Details(incidentID);
 
-                    if (usedID != id.User_ID || id.Insert_Status == true)
-                        Response.Redirect("MemberHome.aspx");
+                    if (incidentID == -1)
+                    {
+                        IncidentDetails id = new IncidentDetails(-1, userID, string.Empty, string.Empty, DateTime.Now, new List<IncidentTypeDetails> { },
+                            new List<IncidentPeopleDetails> { }, 0, string.Empty, false, false, string.Empty, -1, string.Empty);
+                        IncidentID.Text = sip.Incident_Insert(id).ToString();
+                    }
                     else
                     {
+                        IncidentDetails id = sip.Incident_Get_Details(incidentID);
 
-                        IncidentID.Text = incidentID + "";
-                        BindImageGridData();
+                        if (userID != id.User_ID || id.Insert_Status == true)
+                            Response.Redirect("MemberHome.aspx");
+                        else
+                        {
+                            IncidentID.Text = incidentID + "";
+                            BindImageGridData();
 
-                        PopulatePageDetails(id);
+                            PopulatePageDetails(id);
+                        }
                     }
                 }
             }
         }
 
+        private void PopulateLocationLabel(StoreDetails loggedInUserStore)
+        {
+            AddressIDLabel.Text = loggedInUserStore.Store_Address.Address_ID.ToString();
+
+            LocationLabel.Text = loggedInUserStore.Store_Name + ", " + loggedInUserStore.Store_Address.Suburb + ", " + loggedInUserStore.Store_Address.City + ", " + loggedInUserStore.Store_Address.Country;
+        }
+
         private void PopulatePageDetails(IncidentDetails id)
         {
-            //IncidentDate.Text = id.Incident_datetime.Date.ToString("dd/MM/yyyy");
-            //IncidentTimeDropdown.Items.FindByText(id.Incident_datetime.ToString("HH:mm")).Selected = true;
+            IncidentDateTime.Text = id.Incident_datetime.Day + "-" + id.Incident_datetime.Month + "-" + id.Incident_datetime.Year + " " + id.Incident_datetime.ToShortTimeString().Replace(".", "");
 
-            foreach(IncidentTypeDetails itd in id.Incident_types)
+            foreach (IncidentTypeDetails itd in id.Incident_types)
             {
                 IncidentTypeListBox.Items.FindByText(itd.Incident_Type_Name).Selected = true;
             }
 
-            if (IncidentTypeListBox.SelectedItem.Text == "Other")
+            if (IncidentTypeListBox.SelectedIndex > 0)
             {
-                OtherIncidentTypePanel.Visible = true;
-                OtherIncidentyTypeBox.Text = id.Other_Incident_Type;
+                if (IncidentTypeListBox.SelectedItem.Text == "Other")
+                {
+                    OtherIncidentTypePanel.Visible = true;
+                    OtherIncidentyTypeBox.Text = id.Other_Incident_Type;
+                }
             }
 
             DescriptionBox.Text = id.Description;
@@ -73,9 +93,6 @@ namespace Eyedentify
             NoPeopleDropDown.Items.FindByValue(id.People_Involved + "").Selected = true;
             if (id.People_Involved > 0)
             {
-                //AddPeopleLinkButton.Enabled = true;
-                //ModalPopupExtender1.Enabled = true;
-
                 PeopleBindData(id.Incident_people);
             }
 
@@ -89,7 +106,7 @@ namespace Eyedentify
                 LinkOtherIncidentLinkButton.Text = "Click here to link to other incident. (Currently linked to \"" + otherIncident + "\" incident)";
             }
         }
-        
+
         private void PopulateOtherIncidentBox()
         {
             int incidentID = int.Parse(IncidentID.Text);
@@ -111,14 +128,11 @@ namespace Eyedentify
         {
             MembershipUser user = Membership.GetUser(User.Identity.Name);
             string usedID = user.ProviderUserKey.ToString();
-            //string subject = ""; // no longer used
-
             string datetime = IncidentDateTime.Text;
 
-            //string datetime = Request.Form["IncidentDateTime"];
-            string month = datetime.Split('/')[0];
-            string day = datetime.Split('/')[1];
-            string yearTime = datetime.Split('/')[2];
+            string day = datetime.Split('-')[0];
+            string month = datetime.Split('-')[1];
+            string yearTime = datetime.Split('-')[2];
             datetime = day + "/" + month + "/" + yearTime;
             DateTime date = DateTime.Parse(datetime);
 
@@ -143,10 +157,15 @@ namespace Eyedentify
 
             string description = DescriptionBox.Text.ToString().Trim();
 
-            int NoOfPeopleInvolved = int.Parse( NoPeopleDropDown.SelectedValue);
+            string storeName = LocationLabel.Text.Substring(0, LocationLabel.Text.IndexOf(','));
+
+            int NoOfPeopleInvolved = 0;
+
+            if (NoPeopleDropDown.SelectedIndex > 0)
+                NoOfPeopleInvolved = int.Parse(NoPeopleDropDown.SelectedValue);
 
             IncidentDetails id = new IncidentDetails(incidentID, usedID, string.Empty, description, date, types, people,
-                NoOfPeopleInvolved, otherIT, false, false, string.Empty, sup.User_Get_Store_ID(usedID));
+                NoOfPeopleInvolved, otherIT, false, false, string.Empty, int.Parse(AddressIDLabel.Text), storeName);
             return id;
         }
 
@@ -156,10 +175,13 @@ namespace Eyedentify
 
             foreach (RepeaterItem ri in PeopleInvolvedRepeater.Items)
             {
-                string gender = ((DropDownList)ri.FindControl("PersonGenderBox")).SelectedItem.Value;
-                string agegroup = ((DropDownList)ri.FindControl("PersonAgeGroupBox")).SelectedItem.Text;
+                string gender = ((DropDownList)ri.FindControl("PersonGenderDropDown")).SelectedIndex > 1 ? ((DropDownList)ri.FindControl("PersonGenderDropDown")).SelectedItem.Text : null;
+                string agegroup = ((DropDownList)ri.FindControl("PersonAgeGroupDropDown")).SelectedIndex > 1 ? ((DropDownList)ri.FindControl("PersonAgeGroupDropDown")).SelectedItem.Text : null;
+                string ethnicity = ((DropDownList)ri.FindControl("PersonEthnicityDropDown")).SelectedIndex > 1 ? ((DropDownList)ri.FindControl("PersonEthnicityDropDown")).SelectedItem.Text : null;
+                string height = ((DropDownList)ri.FindControl("PersonHeightDropDown")).SelectedIndex > 1 ? ((DropDownList)ri.FindControl("PersonHeightDropDown")).SelectedItem.Text : null;
+                string build = ((DropDownList)ri.FindControl("PersonBuildDropDown")).SelectedIndex > 1 ? ((DropDownList)ri.FindControl("PersonBuildDropDown")).SelectedItem.Text : null;
                 string persondesc = ((TextBox)ri.FindControl("PersonDescriptionBox")).Text;
-                people.Add(new IncidentPeopleDetails(-1, incidentID, gender, agegroup, persondesc));
+                people.Add(new IncidentPeopleDetails(-1, incidentID, gender, agegroup, ethnicity, height, build, persondesc));
             }
             return people;
         }
@@ -172,11 +194,23 @@ namespace Eyedentify
 
             int imageCounter = IncidentImageGrid.Rows.Count;
             if (imageCounter == 0)
+            {
                 AddImageLinkButton.Text = "Click here to add photos.";
+                IncidentImageGrid.Visible = false;
+                lblMsg.Visible = false;
+            }
             else if (imageCounter == 1)
+            {
                 AddImageLinkButton.Text = "Click here to add photos. (" + imageCounter + " image added)";
+                IncidentImageGrid.Visible = true;
+                lblMsg.Visible = true;
+            }
             else
+            {
                 AddImageLinkButton.Text = "Click here to add photos. (" + imageCounter + " images added)";
+                IncidentImageGrid.Visible = true;
+                lblMsg.Visible = true;
+            }
         }
 
         protected void btnSave_Click(object sender, ImageClickEventArgs e)
@@ -243,7 +277,7 @@ namespace Eyedentify
         protected void IncidentImageGrid_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string command = e.CommandName;
-            
+
             if (command.Equals("MainPhoto"))
             {
                 int imageID = int.Parse(e.CommandArgument.ToString());
@@ -286,13 +320,40 @@ namespace Eyedentify
         {
             PopulateRepeaters(list.Count);
 
+            if (list.Count > 0)
+            {
+                PeopleTable.Visible = true;
+                PeopleInvolvedInfoLabel.Visible = true;
+            }
+
             int counter = 0;
 
             foreach (IncidentPeopleDetails ipd in list)
             {
-                ((DropDownList)PeopleInvolvedRepeater.Items[counter].FindControl("PersonGenderBox")).SelectedValue = ipd.Gender;
-                ((DropDownList)PeopleInvolvedRepeater.Items[counter].FindControl("PersonAgeGroupBox")).SelectedValue = ipd.Age_Group;
+                DropDownList genderDB = ((DropDownList)PeopleInvolvedRepeater.Items[counter].FindControl("PersonGenderDropDown"));
+                DropDownList ageDB = ((DropDownList)PeopleInvolvedRepeater.Items[counter].FindControl("PersonAgeGroupDropDown"));
+                DropDownList ethDB = ((DropDownList)PeopleInvolvedRepeater.Items[counter].FindControl("PersonEthnicityDropDown"));
+                DropDownList heightDB = ((DropDownList)PeopleInvolvedRepeater.Items[counter].FindControl("PersonHeightDropDown"));
+                DropDownList buildDB = ((DropDownList)PeopleInvolvedRepeater.Items[counter].FindControl("PersonBuildDropDown"));
+
+                genderDB.Items.FindByText(ipd.Gender).Selected = true;
+                ageDB.Items.FindByText(ipd.Age_Group).Selected = true;
+                ethDB.Items.FindByText(ipd.Ethnicity).Selected = true;
+                heightDB.Items.FindByText(ipd.Height).Selected = true;
+                buildDB.Items.FindByText(ipd.Build).Selected = true;
                 ((TextBox)PeopleInvolvedRepeater.Items[counter].FindControl("PersonDescriptionBox")).Text = ipd.Description;
+
+                if (genderDB.SelectedIndex == 1)
+                    genderDB.SelectedIndex = 0;
+                if (ageDB.SelectedIndex == 1)
+                    ageDB.SelectedIndex = 0;
+                if (ethDB.SelectedIndex == 1)
+                    ethDB.SelectedIndex = 0;
+                if (heightDB.SelectedIndex == 1)
+                    heightDB.SelectedIndex = 0;
+                if (buildDB.SelectedIndex == 1)
+                    buildDB.SelectedIndex = 0;
+
                 counter++;
             }
         }
@@ -302,19 +363,13 @@ namespace Eyedentify
             if (NoPeopleDropDown.SelectedIndex > 1)
             {
                 PopulateRepeaters(int.Parse(NoPeopleDropDown.SelectedItem.Value));
-
-                //AddPeopleLinkButton.Enabled = true;
-                //ModalPopupExtender1.Enabled = true;
-                peopletable.Visible = true;
-                Label1.Visible = true;
+                PeopleTable.Visible = true;
+                PeopleInvolvedInfoLabel.Visible = true;
             }
             else
             {
-                peopletable.Visible = false;
-                Label1.Visible = false;
-                //AddPeopleLinkButton.Enabled = false;
-                //ModalPopupExtender1.Enabled = false;
-
+                PeopleTable.Visible = false;
+                PeopleInvolvedInfoLabel.Visible = false;
             }
         }
 
@@ -350,6 +405,12 @@ namespace Eyedentify
             }
 
             ModalPopupExtender2.Hide();
+        }
+
+        protected void DeleteButton_Click(object sender, EventArgs e)
+        {
+            int incidentID = int.Parse(IncidentID.Text);
+            sip.Incident_Delete_By_Owner(incidentID, string.Empty);
         }
     }
 }

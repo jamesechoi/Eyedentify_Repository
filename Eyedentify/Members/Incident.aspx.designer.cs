@@ -103,13 +103,13 @@ namespace Eyedentify {
         protected global::System.Web.UI.WebControls.Button BackButton;
         
         /// <summary>
-        /// comment control.
+        /// CommentBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox comment;
+        protected global::System.Web.UI.WebControls.TextBox CommentBox;
         
         /// <summary>
         /// SubmitComment control.
@@ -121,12 +121,30 @@ namespace Eyedentify {
         protected global::System.Web.UI.WebControls.Button SubmitComment;
         
         /// <summary>
-        /// commentLabel control.
+        /// CommentsList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label commentLabel;
+        protected global::System.Web.UI.WebControls.DataList CommentsList;
+        
+        /// <summary>
+        /// IncidentMap control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Artem.Google.UI.GoogleMap IncidentMap;
+        
+        /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
     }
 }

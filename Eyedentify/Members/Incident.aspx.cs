@@ -11,12 +11,14 @@ using System.Data;
 using System.Text;
 using System.Xml;
 using System.Diagnostics;
+using Artem.Google.UI;
 
 namespace Eyedentify
 {
     public partial class Incident : System.Web.UI.Page
     {
         private SqlIncidentProvider sip = new SqlIncidentProvider();
+        private SqlStoreProvider ssp = new SqlStoreProvider();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -31,32 +33,75 @@ namespace Eyedentify
                 MembershipUser user = Membership.GetUser(User.Identity.Name);
                 string userID = user.ProviderUserKey.ToString();
 
-                if (userID.Equals(id.User_ID))
+                AdddressDetails incidentAddr = sip.Incident_Get_Address(id.Incident_ID);
+                StoreDetails loggedinUserAddress = ssp.Store_Get_User_Store_Info(userID);
+
+                if (loggedinUserAddress.Store_ID == 0)
                 {
-                    //PopulateIncidentReporterBox(id);
+                    Response.Redirect("ErrorPage.aspx?Error=MemberNoStore");
                 }
                 else
                 {
-                    //OwnerPanel.Visible = false;
+                    if (userID.Equals(id.User_ID))
+                    {
+                        //PopulateIncidentReporterBox(id);
+                    }
+                    else
+                    {
+                        //OwnerPanel.Visible = false;
+                    }
+                    PopulateImageView(incidentID);
+                    PopulateLabels(id, userID, incidentAddr);
+                    PopulateCommentsList(incidentID);
+                    PopulateMap(id, incidentAddr, loggedinUserAddress);
                 }
-
-                DataTable imageList = sip.Incident_Images_Get(incidentID);
-                DataGridImage.DataSource = imageList;
-                DataGridImage.DataBind();
-                DataGridThumbnail.DataSource = imageList;
-                DataGridThumbnail.DataBind();
-                PopulateImagePopupBox(sip.Incident_Images_Get(incidentID));
-                PopulateLabels(id);
             }
 
         }
 
-
-
-        public string getHREF(object sURL)
+        private void PopulateMap(IncidentDetails incidentDetails, AdddressDetails incidentAddr, StoreDetails loggedinUserAddress)
         {
-            DataRowView dRView = (DataRowView)sURL;
-            return dRView["ImageID"].ToString();
+            IncidentMap.MapType = MapType.Roadmap;
+            IncidentMap.EnterpriseKey = Utility.GetGoogleAPIKey();
+            IncidentMap.Latitude = incidentAddr.Latitude;
+            IncidentMap.Longitude = incidentAddr.Longitude;
+            IncidentMap.Zoom = Utility.GetGoogleZoomLevel(incidentAddr.Latitude, incidentAddr.Longitude, loggedinUserAddress.Store_Address.Latitude, loggedinUserAddress.Store_Address.Longitude);
+
+            MarkerImage incidentMarkerIamge = new MarkerImage();
+            incidentMarkerIamge.Url = "http://www.eyedentify.co.nz/Images/Map/map_Incident_Icon.jpg";
+
+            MarkerImage homeMarkerIamge = new MarkerImage();
+            homeMarkerIamge.Url = "http://www.eyedentify.co.nz/Images/Map/map_Home_Icon.png";
+
+            Marker incidentMarker = new Marker();
+            incidentMarker.Address = incidentAddr.Latitude + " " + incidentAddr.Longitude;
+            incidentMarker.Info = incidentDetails.Description;
+            incidentMarker.Icon = incidentMarkerIamge;
+            IncidentMap.Markers.Add(incidentMarker);
+
+            Marker yourAddressMarker = new Marker();
+            yourAddressMarker.Address = loggedinUserAddress.Store_Address.Latitude + " " + loggedinUserAddress.Store_Address.Longitude;
+            yourAddressMarker.Info = "Your Store";
+            yourAddressMarker.Icon = homeMarkerIamge;
+            IncidentMap.Markers.Add(yourAddressMarker);
+        }
+
+        private void PopulateCommentsList(int incidentID)
+        {
+            CommentsList.DataSource = sip.Incident_Get_Comments(incidentID);
+            CommentsList.DataBind();
+        }
+
+        private void PopulateImageView(int incidentID)
+        {
+            DataTable imageList = sip.Incident_Images_Get(incidentID);
+            DataGridImage.DataSource = imageList;
+            DataGridImage.DataBind();
+
+            DataGridThumbnail.DataSource = imageList;
+            DataGridThumbnail.DataBind();
+
+            PopulateImagePopupBox(imageList);
         }
 
         public string getSRC(object imgSRC)
@@ -65,22 +110,15 @@ namespace Eyedentify
             return dRView["Incident_Image_ID"].ToString();
 
         }
-        public string getHREF1(object sURL)
-        {
-            DataRowView dRView = (DataRowView)sURL;
-            return dRView["ImageID"].ToString();
-        }
 
-        public string getSRC1(object imgSRC)
+        private void PopulateLabels(IncidentDetails id, string userID, AdddressDetails incidentAddr)
         {
-            DataRowView dRView = (DataRowView)imgSRC;
-            return dRView["ImageID"].ToString();
+            if (!id.Store_Name.Equals(string.Empty))
+                LocationLabel.Text = id.Store_Name + ", ";
+            else
+                LocationLabel.Text = string.Empty;
+            LocationLabel.Text = LocationLabel.Text + incidentAddr.Suburb + ", " + incidentAddr.City + ", " + incidentAddr.Country;
 
-        }
-
-        private void PopulateLabels(IncidentDetails id)
-        {
-            LocationLabel.Text = "Bling, Newmarket, Auckland";
             TimeLabel.Text = id.Incident_datetime.ToShortDateString() + " " + id.Incident_datetime.ToShortTimeString();
 
             DescriptionLabel.Text = id.Description;
@@ -110,22 +148,7 @@ namespace Eyedentify
             TypeLabel.Text = incidentTypeString.Substring(0, incidentTypeString.Length - 2);
         }
 
-        private void PopulateImagePopupBox(DataTable dt)
-        {
-            int counter = dt.Rows.Count;
-            if (counter > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("BYLINE_POSITION_RIGHT = 150;");
-                sb.Append("BYLINE_POSITION_BOTTOM = 50;");
-                sb.Append("var viewer = new PhotoViewer();");
-                foreach (DataRow dr in dt.Rows)
-                {
-                    sb.Append("viewer.add('ImagePage.aspx?type=full&imgID=" + dr["Incident_Image_ID"].ToString() + "');");
-                }
-                ClientScript.RegisterStartupScript(typeof(Page), "MyScript", sb.ToString(), true);
-            }
-        }
+
 
         protected void BackButton_Click(object sender, EventArgs e)
         {
@@ -145,11 +168,18 @@ namespace Eyedentify
 
             foreach (IncidentPeopleDetails ipd in list)
             {
-                if (ipd.Gender.Equals("M")) ipd.Gender = "Male";
-                else ipd.Gender = "Female";
-                ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonGenderBox")).Text = ipd.Gender;
-                ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonAgeGroupBox")).Text = ipd.Age_Group;
-                ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonDescriptionBox")).Text = ipd.Description;
+                if (!ipd.Gender.Equals(string.Empty))
+                    ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonGenderLabel")).Text = "<b>Gender:</b> " + ipd.Gender + " ";
+                if (!ipd.Age_Group.Equals(string.Empty))
+                    ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonAgeGroupLabel")).Text = "<b>Age Group:</b> " + ipd.Age_Group + " ";
+                if (!ipd.Ethnicity.Equals(string.Empty))
+                    ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonEthnicityLabel")).Text = "<b>Ethnicity:</b> " + ipd.Ethnicity + " ";
+                if (!ipd.Height.Equals(string.Empty))
+                    ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonHeightLabel")).Text = "<b>Height:</b> " + ipd.Height + " ";
+                if (!ipd.Build.Equals(string.Empty))
+                    ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonBuildLabel")).Text = "<b>Build:</b> " + ipd.Build + " ";
+                if (!ipd.Description.Equals(string.Empty))
+                    ((Label)PeopleInvolvedRepeater.Items[counter].FindControl("PersonDescriptionLabel")).Text = "<b>Description:</b> " + ipd.Description + " ";
                 counter++;
             }
         }
@@ -158,9 +188,6 @@ namespace Eyedentify
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("person_order_id");
-            dt.Columns.Add("Gender");
-            dt.Columns.Add("Age_Group");
-            dt.Columns.Add("Description");
 
             for (int i = 1; i <= noOfRepeaters; i++)
             {
@@ -172,30 +199,6 @@ namespace Eyedentify
             PeopleInvolvedRepeater.DataBind();
 
         }
-
-        //private void PopulateXMLFile(DataTable dt)
-        //{
-        //    using (XmlWriter writer = XmlWriter.Create(@"C:/Users/James/Desktop/roject - Eyedentify/Code - Eyedentify/Eyedentify/Members/ImageXMLFile.xml"))
-        //    {
-        //        writer.WriteStartDocument();
-        //        writer.WriteStartElement("PageTitle");
-
-        //        foreach (DataRow dr in dt.Rows)
-        //        {
-
-
-        //            writer.WriteStartElement("Image");
-
-        //            writer.WriteElementString("ImageID", dr["Incident_Image_ID"].ToString());
-
-        //            writer.WriteEndElement();
-        //        }
-
-        //        writer.WriteEndElement();
-        //        writer.WriteEndDocument();
-        //    }
-        //}
-
 
         private void CheckIncidentStatus(IncidentDetails id)
         {
@@ -209,23 +212,32 @@ namespace Eyedentify
             return int.Parse(test);
         }
 
-        /*
-        protected void DeleteButton_Click(object sender, EventArgs e)
-        {
-            if (DeleteReasonTextBox.Text.Trim().Length > 0)
-            {
-                sip.Incident_Delete_By_Owner(GetIncidentID(), DeleteReasonTextBox.Text.Trim());
-                Response.Redirect("MemberHome.aspx");
-            }
-        }
-         * */
         protected void SubmitComment_Click(object sender, EventArgs e)
         {
-            //1. Save the comment to the database
-            //2. Retrive all comments associated with this incident and display them - use <asp:Repeater>
-            string commentText = comment.Text;
-            commentLabel.Text = commentText;
-            comment.Text = "";
+            int incident_ID = GetIncidentID();
+            MembershipUser user = Membership.GetUser(User.Identity.Name);
+            string userID = user.ProviderUserKey.ToString();
+
+            sip.Incident_Comment_Insert(incident_ID, CommentBox.Text.Trim(), userID);
+            CommentBox.Text = string.Empty;
+            PopulateCommentsList(incident_ID);
+        }
+
+        private void PopulateImagePopupBox(DataTable dt)
+        {
+            int counter = dt.Rows.Count;
+            if (counter > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("BYLINE_POSITION_RIGHT = 150;");
+                sb.Append("BYLINE_POSITION_BOTTOM = 50;");
+                sb.Append("var viewer = new PhotoViewer();");
+                foreach (DataRow dr in dt.Rows)
+                {
+                    sb.Append("viewer.add('ImagePage.aspx?type=full&imgID=" + dr["Incident_Image_ID"].ToString() + "');");
+                }
+                ClientScript.RegisterStartupScript(typeof(Page), "MyScript", sb.ToString(), true);
+            }
         }
     }
 

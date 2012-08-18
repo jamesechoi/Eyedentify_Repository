@@ -107,6 +107,7 @@ namespace Eyedentify.App_Code
                 cmd.Parameters.Add("@other_incident_type", SqlDbType.VarChar).Value = incident.Other_Incident_Type;
                 cmd.Parameters.Add("@delete_status", SqlDbType.Bit).Value = incident.Delete_Status;
                 cmd.Parameters.Add("@addr_ID", SqlDbType.Int).Value = incident.Address_ID;
+                cmd.Parameters.Add("@store_name", SqlDbType.VarChar).Value = incident.Store_Name;
                 cn.Open();
 
                 ExecuteNonQuery(cmd);
@@ -138,6 +139,9 @@ namespace Eyedentify.App_Code
                     cmd.Parameters.Add("@incidentID", SqlDbType.Int).Value = incident.Incident_ID;
                     cmd.Parameters.Add("@gender", SqlDbType.VarChar).Value = iPeople.Gender;
                     cmd.Parameters.Add("@age_group", SqlDbType.VarChar).Value = iPeople.Age_Group;
+                    cmd.Parameters.Add("@ethnicity", SqlDbType.VarChar).Value = iPeople.Ethnicity;
+                    cmd.Parameters.Add("@height", SqlDbType.VarChar).Value = iPeople.Height;
+                    cmd.Parameters.Add("@build", SqlDbType.VarChar).Value = iPeople.Build;
                     cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = iPeople.Description;     
                     ExecuteNonQuery(cmd);
                 }
@@ -375,6 +379,95 @@ namespace Eyedentify.App_Code
                 cmd.Parameters.Add("@deleteReason", SqlDbType.VarChar).Value = deleteReasonText;
                 cn.Open();
                 ExecuteNonQuery(cmd);
+            }
+        }
+
+        internal AdddressDetails Incident_Get_Address(int incident_ID)
+        {
+            using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("EyeD_Incident_Get_Address", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@incident_ID", SqlDbType.Int).Value = incident_ID;
+                cn.Open();
+                return AdddressDetails.GetAddressDetailsFromReader(ExecuteReader(cmd));
+            }
+        }
+
+        internal object Incident_Get_Comments(int incidentID)
+        {
+            using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("EyeD_Incident_Get_Comments", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@incident_ID", SqlDbType.Int).Value = incidentID;
+                cn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(ExecuteReader(cmd));
+                return dt;
+            }
+        }
+
+        internal void Incident_Comment_Insert(int incident_ID, string comment, string userID)
+        {
+            using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("EyeD_Incident_Comment_Insert", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@incident_ID", SqlDbType.Int).Value = incident_ID;
+                cmd.Parameters.Add("@userComment", SqlDbType.VarChar).Value = comment;
+                cmd.Parameters.Add("@user_ID", SqlDbType.UniqueIdentifier).Value = new Guid(userID);
+                cn.Open();
+                ExecuteNonQuery(cmd);
+            }
+        }
+
+        internal object Incident_Get_For_Unfinished_Incidents(string userID)
+        {
+            using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("EyeD_Incident_Get_For_Unfinished_Incidents", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@user_ID", SqlDbType.UniqueIdentifier).Value = new Guid(userID);
+                cn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(ExecuteReader(cmd));
+                return dt;
+            }
+        }
+
+        internal object Incident_Get_For_My_Incidents(string userID)
+        {
+            using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("EyeD_Incident_Get_For_My_Incidents", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@user_ID", SqlDbType.UniqueIdentifier).Value = new Guid(userID);
+                cn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(ExecuteReader(cmd));
+                return dt;
+            }
+        }
+
+        internal object Incident_Get_For_Filtered_Incidents(double lat_min, double lat_max, double lon_min, double lon_max)
+        {
+            using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("EyeD_Incident_Get_For_Filtered_Incidents", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@lat_min", SqlDbType.Float).Value = lat_min;
+                cmd.Parameters.Add("@lat_max", SqlDbType.Float).Value = lat_max;
+                cmd.Parameters.Add("@lon_min", SqlDbType.Float).Value = lon_min;
+                cmd.Parameters.Add("@lon_max", SqlDbType.Float).Value = lon_max;
+                cn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(ExecuteReader(cmd));
+                return dt;
             }
         }
     }

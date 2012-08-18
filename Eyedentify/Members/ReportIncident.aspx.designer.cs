@@ -31,6 +31,15 @@ namespace Eyedentify {
         protected global::AjaxControlToolkit.RoundedCornersExtender rce;
         
         /// <summary>
+        /// AddressIDLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label AddressIDLabel;
+        
+        /// <summary>
         /// LocationLabel control.
         /// </summary>
         /// <remarks>
@@ -238,22 +247,22 @@ namespace Eyedentify {
         protected global::System.Web.UI.WebControls.DropDownList NoPeopleDropDown;
         
         /// <summary>
-        /// Label1 control.
+        /// PeopleInvolvedInfoLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label PeopleInvolvedInfoLabel;
         
         /// <summary>
-        /// peopletable control.
+        /// PeopleTable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl peopletable;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PeopleTable;
         
         /// <summary>
         /// PeopleInvolvedRepeater control.
@@ -344,5 +353,14 @@ namespace Eyedentify {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButtom;
+        
+        /// <summary>
+        /// DeleteButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeleteButton;
     }
 }

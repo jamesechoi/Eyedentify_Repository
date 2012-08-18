@@ -14,7 +14,7 @@ namespace Eyedentify.App_Code
 
         public IncidentDetails(int incident_ID, string user_ID, string subject, string description, DateTime incident_datetime,
             List<IncidentTypeDetails> incident_types, List<IncidentPeopleDetails> incident_people, int people_involved, string other_incident_type,
-            bool insert_status, bool delete_status, string delete_reason, int address_ID)
+            bool insert_status, bool delete_status, string delete_reason, int address_ID, string store_name)
         {
             this.Incident_ID = incident_ID;
             this.User_ID = user_ID;
@@ -29,6 +29,7 @@ namespace Eyedentify.App_Code
             this.Delete_Status = delete_status;
             this.Delete_Reason = delete_reason;
             this.Address_ID = address_ID;
+            this.Store_Name = store_name;
         }
 
         private int _incident_ID = 0;
@@ -92,7 +93,7 @@ namespace Eyedentify.App_Code
         {
             get { return _other_incident_type; }
             set { _other_incident_type = value; }
-        }        
+        }
 
         private bool _insert_status = false;
         public bool Insert_Status
@@ -122,6 +123,13 @@ namespace Eyedentify.App_Code
             set { _address_ID = value; }
         }
 
+        private string _store_name = string.Empty;
+        public string Store_Name
+        {
+            get { return _store_name; }
+            set { _store_name = value; }
+        }
+
         public static IncidentDetails GetIncidentDetailsFromReader(IDataReader reader)
         {
             IncidentDetails incidentDetailsCol = new IncidentDetails();
@@ -145,7 +153,8 @@ namespace Eyedentify.App_Code
                 (bool)reader["Insert_Status"],
                 (bool)reader["Delete_Status"],
                  reader["Delete_Reason"].ToString(),
-                 int.Parse(reader["Address_ID"].ToString())
+                 int.Parse(reader["Address_ID"].ToString()),
+                 reader["Store_Name"].ToString()
                 );
             return incidentDetails;
         }
