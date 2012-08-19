@@ -3,11 +3,11 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-    <link href="<%= Page.ResolveUrl("~/Styles/STL_ThreeColumnLayoutWithImagesInCSS.css") %>" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="<%= Page.ResolveUrl("~/Styles/STL_slideshow.css") %>" media="screen" />
+    <link href="<%= Page.ResolveUrl("~/Styles/STL_ThreeColumnLayoutWithImagesInCSS.css") %>"
+        rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="<%= Page.ResolveUrl("~/Styles/STL_slideshow.css") %>"
+        media="screen" />
     <script type="text/javascript" src="<%= Page.ResolveUrl("~/Scripts/SCR_mootools.js") %>"></script>
     <script type="text/javascript" id="allcode" src="<%= Page.ResolveUrl("~/Scripts/SCR_visualslideshow.js") %>"></script>
     <style type="text/css">
@@ -29,7 +29,7 @@
             <table class="style1">
                 <tr>
                     <td class="style3">
-                        Location of Incident:
+                        <b>Location of Incident:</b>
                     </td>
                     <td class="style4">
                         <asp:Label ID="LocationLabel" runat="server" Text="Label"></asp:Label>
@@ -37,7 +37,7 @@
                 </tr>
                 <tr>
                     <td class="style3">
-                        Time of Incident:
+                        <b>Time of Incident:</b>
                     </td>
                     <td class="style4">
                         <asp:Label ID="TimeLabel" runat="server" Text="Label"></asp:Label>
@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                     <td class="style3">
-                        Type of Incident:
+                        <b>Type of Incident:</b>
                     </td>
                     <td class="style4">
                         <asp:Label ID="TypeLabel" runat="server" Text="Label"></asp:Label>
@@ -53,16 +53,15 @@
                 </tr>
                 <tr>
                     <td class="style3">
-                        Description of Incident:
+                        <b>Description of Incident:</b>
                     </td>
                     <td class="style4">
-                        <%--<asp:TextBox ID="DescriptionLabel" runat="server" Text="Label" TextMode="MultiLine" Wrap="true" Rows="10" Width="250px" ReadOnly="true" BorderStyle="None" BorderWidth="0"></asp:TextBox>--%>
-                        <asp:Label ID="DescriptionLabel1" runat="server" Text="Label"></asp:Label>
+                        <asp:Label ID="DescriptionLabel" runat="server" Text="Label"></asp:Label>
                     </td>
                 </tr>
                 <tr>
                     <td class="style3">
-                        Number of People Involved:
+                       <b> Number of People Involved:</b>
                     </td>
                     <td class="style4">
                         <asp:Label ID="PeopleInvolvedLabel" runat="server" Text="Label"></asp:Label>
@@ -79,8 +78,8 @@
                         <Columns>
                             <asp:TemplateColumn>
                                 <ItemTemplate>
-                                    <a id="prev1" onclick="return viewer.show(0)"<%--href="ImagePage.aspx?type=full&imgID=<%# getSRC(Container.DataItem) %>"--%>>
-                                        <img align="middle" border="0" id="imgRM" src="<%= Page.ResolveUrl("~/Members/ImagePage.aspx?type=bid&imgID=") %><%# getSRC(Container.DataItem) %>&sz=250"
+                                    <a id="prev1" onclick="return viewer.show(0)">
+                                        <img alt="" align="middle" border="0" id="imgRM" src="<%= Page.ResolveUrl("~/Members/ImagePage.aspx?type=bid&imgID=") %><%# getSRC(Container.DataItem) %>&sz=250"
                                             onclick="return viewer.show(0)" />
                                     </a>
                                 </ItemTemplate>
@@ -117,16 +116,16 @@
                         <p align="center" style="font-size: medium">
                             Person&nbsp;
                             <%# DataBinder.Eval(Container.DataItem, "person_order_id") %></p>
-                        Gender:&nbsp;<asp:Label ID="PersonGenderBox" runat="server" CssClass="yourbox"></asp:Label>
-                        Age Group:&nbsp;<asp:Label ID="PersonAgeGroupBox" runat="server" CssClass="yourbox"></asp:Label>
-                        Ethnicity:&nbsp;<asp:Label ID="PersonEthnicityBox" runat="server" CssClass="yourbox"></asp:Label>
+                        <asp:Label ID="PersonGenderLabel" runat="server" CssClass="yourbox"></asp:Label>
+                        <asp:Label ID="PersonAgeGroupLabel" runat="server" CssClass="yourbox"></asp:Label>
+                        <asp:Label ID="PersonEthnicityLabel" runat="server" CssClass="yourbox"></asp:Label>
                         <br />
                         <br />
-                        Height: 110-120cm 3ft 7in&nbsp;<asp:Label ID="PersonHeightBox" runat="server" CssClass="yourbox"></asp:Label>
-                        Build: Stocky&nbsp;<asp:Label ID="PersonBuildBox" runat="server" CssClass="yourbox"></asp:Label>
+                        <asp:Label ID="PersonHeightLabel" runat="server" CssClass="yourbox"></asp:Label>
+                        <asp:Label ID="PersonBuildLabel" runat="server" CssClass="yourbox"></asp:Label>
                         <br />
                         <br />
-                        <asp:Label ID="PersonDescriptionBox" CssClass="descip" runat="server"></asp:Label>
+                        <asp:Label ID="PersonDescriptionLabel" CssClass="descip" runat="server"></asp:Label>
                     </div>
                 </ItemTemplate>
                 <SeparatorTemplate>

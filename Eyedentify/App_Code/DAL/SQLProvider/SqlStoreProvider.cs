@@ -7,25 +7,25 @@ using System.Data;
 
 namespace Eyedentify.App_Code
 {
-    public class SqlUserProvider : DataAccess
+    public class SqlStoreProvider : DataAccess
     {
-        public SqlUserProvider()
+        public SqlStoreProvider()
         {
             this.ConnectionString = Utility.GetConnectionString();
             this.EnableCaching = false;
             this.CacheDuration = 100;
         }
 
-        internal void Incident_Delete_By_Owner(int incident_id, string deleteReasonText)
+        internal StoreDetails Store_Get_User_Store_Info(string userID)
         {
             using (SqlConnection cn = new SqlConnection(this.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("EyeD_Incident_Delete_By_Owner", cn);
+                SqlCommand cmd = new SqlCommand("EyeD_Store_Get_User_Store_Info", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@incident_ID", SqlDbType.Int).Value = incident_id;
-                cmd.Parameters.Add("@deleteReason", SqlDbType.VarChar).Value = deleteReasonText;
+                cmd.Parameters.Add("@user_ID", SqlDbType.UniqueIdentifier).Value = new Guid(userID);
                 cn.Open();
-                ExecuteNonQuery(cmd);
+                StoreDetails sDetails = StoreDetails.GetStoreDetailsFromReader(ExecuteReader(cmd));
+                return sDetails;
             }
         }
     }
