@@ -34,9 +34,9 @@
         Width="79px" />
     <br />
     <br />
-    <asp:DataList ID="GridViewList" runat="server" RepeatColumns="3" Width="900px">
+    <asp:DataList ID="GridViewList" runat="server" RepeatColumns="3" RepeatLayout="Table" Width="900px">
         <ItemTemplate>
-            <table class="layout">
+            <table class="layout" style="width:300px;">
                 <tr>
                     <td class="style1">
                         <a href='<%# GetHyperLink() +Eval("Incident_ID")%>'>
@@ -50,7 +50,9 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("Description")%>'></asp:Label>
+                        <div id="short-description" style="width:250px; height: 300px; margin-left: auto; margin-right: auto ;">
+                            <asp:Label ID="Label1" runat="server" Text='<%# Eval("Description")%>'></asp:Label>
+                        </div>
                     </td>
                 </tr>
             </table>

@@ -319,19 +319,18 @@ legend
 
 input.textEntry 
 {
-    width: 320px;
+    width: 100px;
     border: 1px solid #ccc;
 }
 
 input.passwordEntry 
 {
-    width: 320px;
+    width: 100px;
     border: 1px solid #ccc;
 }
 
 div.accountInfo
 {
-    width: 42%;
     color: black;
 }
 
@@ -353,16 +352,40 @@ div.accountInfo
 
 .loginDisplay
 {
+    margin: 40px 0 0 0;
+    padding-left: 50px;
+    float: left;
     font-size: 1.1em;
-    display: block;
-    text-align: right;
-    padding:0px 70px 0px 0px;
+    display: inline;
+    text-align: left;
     color: black;
+
+}
+
+.displayUserInfo 
+{
+    margin-left: 200px;
+}
+
+.UserNameLabel 
+{
+    margin-right: 4px;
+}
+
+.userNameLogin 
+{
+    color: black;
+    text-decoration: none;
+}
+
+.userNameLogin:hover 
+{
+    color: dodgerblue;
 }
 
 .loginDisplay a:link
 {
-    color: black
+    color: black;
 }
 
 .loginDisplay a:visited
@@ -390,5 +413,12 @@ div.accountInfo
 {
     text-align: right;
     padding-right: 10px;
+    color: red;
+}
+
+.LoginButton 
+{
+    margin-left: 5px;
+
 }
 

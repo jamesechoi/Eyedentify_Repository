@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="Images\go_blue.png" />
+    <Content Include="Images\go_white.png" />
     <Content Include="Images\Map\map_Home_Icon.png" />
     <Content Include="Images\Map\map_Incident_Icon.jpg" />
     <Content Include="Members\ChangePassword.aspx" />
@@ -302,7 +304,9 @@
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Site.Master" />
   </ItemGroup>

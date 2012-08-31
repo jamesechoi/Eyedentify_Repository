@@ -26,16 +26,60 @@
                 <div class="loginDisplay">
                     <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
                         <AnonymousTemplate>
-                            [ <a href="~/Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
-                            ]
+                            <%--[ <a href="~/Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
+                            ]--%>
+                            
+                            
+
+                            <asp:Login ID="LoginUser" runat="server" EnableViewState="false" RenderOuterTable="false">
+                                <LayoutTemplate>
+                                    
+                                    <div class="accountInfo">
+                                        <%--<fieldset class="login">--%>
+                                           <%-- <legend>Account Information</legend>--%>
+                                            
+                                                <asp:Label ID="UserNameLabel" CssClass="UserNameLabel" runat="server" AssociatedControlID="UserName">Username</asp:Label>
+                                                <asp:TextBox ID="UserName" runat="server" CssClass="textEntry"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
+                                                     CssClass="failureNotification" ErrorMessage="User Name is required." ToolTip="User Name is required." 
+                                                     ValidationGroup="LoginUserValidationGroup">*</asp:RequiredFieldValidator>
+                                            
+                                            
+                                                <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password</asp:Label>
+                                                <asp:TextBox ID="Password" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" 
+                                                     CssClass="failureNotification" ErrorMessage="Password is required." ToolTip="Password is required." 
+                                                     ValidationGroup="LoginUserValidationGroup">*</asp:RequiredFieldValidator>
+                                            
+                                                <asp:Label ID="RememberMeLabel" runat="server" AssociatedControlID="RememberMe" CssClass="inline">Remember?</asp:Label>
+                                                <asp:CheckBox ID="RememberMe" runat="server"/>
+                                                
+                                            
+                                        <%--</fieldset>--%>
+                                        <span class="submitButton">
+                                            <asp:Button ID="LoginButton" CssClass="LoginButton" runat="server" CommandName="Login" Text="Go" ValidationGroup="LoginUserValidationGroup"/>
+                                        </span>
+                                    </div>
+                                    
+                                    <span class="failureNotification">
+                                        <asp:Literal ID="FailureText" runat="server"></asp:Literal>
+                                    </span>
+                                    <asp:ValidationSummary ID="LoginUserValidationSummary" runat="server" CssClass="failureNotification" 
+                                         ValidationGroup="LoginUserValidationGroup"/>
+
+                                </LayoutTemplate>
+                            </asp:Login>
+                            
                         </AnonymousTemplate>
                         <LoggedInTemplate>
-                            Welcome <span class="bold">
-                                <asp:LoginName ID="HeadLoginName" runat="server" />
-                            </span>! [
+                            <div class="displayUserInfo">Welcome <span class="bold">
+                                <a style="text-decoration: none" href="<%= Page.ResolveUrl("~/Members/MemberHome.aspx") %>"><asp:LoginName CssClass="userNameLogin" ID="HeadLoginName" runat="server"  /></a>                                     
+                                </span>[ 
                             <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out"
                                 LogoutPageUrl="~/" />
                             ]
+                            </div>
+                            
                         </LoggedInTemplate>
                     </asp:LoginView>
                 </div>
@@ -45,7 +89,7 @@
                             <li><a href="<%= Page.ResolveUrl("~/Members/Home.aspx") %>">Home</a></li>
                             <li><a href="<%= Page.ResolveUrl("~/Members/MemberHome.aspx") %>">Incident Feed</a></li>
                             <li><a href="<%= Page.ResolveUrl("~/Members/ReportIncident.aspx") %>">New Incident</a></li>
-                            <li><a href="<%= Page.ResolveUrl("~/MyAccount.aspx") %>">My Account</a></li>
+                            <li><a href="<%= Page.ResolveUrl("~/Members/MyAccount.aspx") %>">My Account</a></li>
                             <li><a href="<%= Page.ResolveUrl("~/About.aspx") %>">About</a></li>
                             <li><a href="<%= Page.ResolveUrl("~/FAQ.aspx") %>">FAQ</a></li>
                         </ul>

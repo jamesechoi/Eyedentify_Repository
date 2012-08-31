@@ -116,7 +116,7 @@ namespace Eyedentify.App_Code
 
         public static AdddressDetails GetAddressDetails(IDataReader reader)
         {
-            SqlGeography sgeo = SqlGeography.Parse(reader["Geo_Code"].ToString());
+            var sgeo = SqlGeography.Parse(reader["Geo_Code"].ToString());
             double latitude = sgeo.Lat.Value;
             double longitude = sgeo.Long.Value;
 

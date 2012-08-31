@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -91,6 +92,22 @@ namespace Eyedentify
 
         private void PopulateNoSearchCategoryGridView()
         {
+            //var data = sip.Incident_Get_For_Home_Page();
+            //var rows = data.Rows;
+            //var index = 0;
+            //foreach (DataRow row in rows)
+            //{
+            //    var desc = row.ItemArray[5].ToString();
+            //    if(desc.Length > 200)
+            //    {
+            //        desc = desc.Substring(0, 150) + "...";
+            //        data.Rows[index].ItemArray[5] = desc;
+            //    }
+
+            //    index++;
+            //}
+
+
             GridViewList.DataSource = sip.Incident_Get_For_Home_Page();
             GridViewList.DataBind();
         }
